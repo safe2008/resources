@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: argocd-server-http-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: argocd-server
+          servicePort: https
+    host: argocd.34.87.167.203.xip.io
+  tls:
+  - hosts:
+    - argocd.34.87.167.203.xip.io
+    secretName: argocd-secret # do not change, this is provided by Argo CD
